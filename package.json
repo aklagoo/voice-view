@@ -1,0 +1,25 @@
+{
+  "name": "voice-view",
+  "version": "1.0.0",
+  "description": "Full stack app for recording voice and visualizing it",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aklagoo/voice-view.git"
+  },
+  "keywords": [
+    "node.js",
+    "typescript",
+    "react.js",
+    "postgresql"
+  ],
+  "author": "Archan Lagoo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aklagoo/voice-view/issues"
+  },
+  "homepage": "https://github.com/aklagoo/voice-view#readme"
+}
