@@ -1,0 +1,470 @@
+openapi: 3.0.0
+info: 
+  title: voice-view-api
+  description: API for voice view
+  version: 1.0.0
+
+paths:
+  /recordings:
+    summary: Represents a collection of recordings for a user.
+
+    get:
+      summary: Gets a paginated set of recordings for a user.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page: { type: number }
+                  itemsPerPage: { type: number }
+                  totalItems: { type: number }
+                  recordings:
+                    type: array
+                    items: { $ref: "#/components/schemas/RecordingModel" }
+        
+        '403':
+          description: Unauthorized.
+              
+    post:
+      summary: Creates a new recording for a user.
+      requestBody:
+        required: true
+        content:
+          multiparat/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: New recording created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordingModel"
+
+        '403':
+          description: Unauthorized.
+
+  /recordings/{recordingId}:
+    summary: Represents a single recording
+    
+    get:
+      summary: Gets details for a recording.
+      parameters:
+        - in: path
+          name: recordingId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a recording.
+      responses:
+        '200':
+          description: Recording found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecordingModel"
+        '403':
+          description: Unauthorized.
+        '404':
+          description: Recording not found.
+
+    patch:
+      parameters:
+        - in: path
+          name: recordingId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a recording.
+      summary: Updates the title of a recording.
+      responses:
+        '200':
+          description: Title update successful.
+        '403':
+          description: Unauthorized.
+        '404':
+          description: Recording not found.
+        
+    delete:
+      parameters:
+        - in: path
+          name: recordingId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a recording.
+      summary: Deletes a recording.
+      responses:
+        '200':
+          description: Recording delete successful.
+        '403':
+          description: Unauthorized.
+        '404':
+          description: Recording not found.
+  
+  /notes:
+    summary: Represents a collection of notes for a user.
+    
+    post:
+      summary: Creates a new note for a recording.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - recordingId
+                - content
+              properties:
+                recordingId:
+                  type: string
+                  format: uuid
+                title:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Note creation successful.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NoteModel"
+        '403':
+          description: Unauthorized.
+  
+  /notes/{noteId}:
+    summary: Represents a single note.
+
+    get:
+      summary: Gets a note.
+      parameters:
+        - in: path
+          name: noteId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a note.
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NoteModel"
+        '403':
+          description: Unauthorized.
+        '404':
+          description: Note not found.
+    
+    patch:
+      summary: Modifies a note's title and/or content. All parameters are optional.
+      parameters:
+        - in: path
+          name: noteId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a note.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Note updation successful.
+        '403':
+          description: Unauthorized.
+        '404':
+          description: Note not found.
+
+    delete:
+      summary: Deletes a note.
+      parameters:
+        - in: path
+          name: noteId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a note.
+      responses:
+        '200':
+          description: Note deletion successful.
+  
+  /practice-texts:
+    summary: Represents the collection of all practice texts.
+
+    get:
+      summary: Gets the IDs and titles of all practice texts.
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  practiceTextPreviews:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/PracticeTextPreviewModel"
+  
+  /practice-texts/{prTextId}:
+    summary: Represents a single practice text.
+    
+    get:
+      summary: Gets a single practice text.
+      parameters:
+        - in: path
+          name: prTextId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique ID referencing a practice text.
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PracticeTextModel"
+  
+  /users:
+    summary: "Represents the collection of all users."
+    
+    post:
+      summary: "Creates a new user."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationModel"
+      responses:
+        '201':
+          description: User creation successful.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserModel"
+        '403':
+          description: Unauthorized.
+
+  
+  /users/{userId}:
+    summary: "Represents a single user."
+
+    get:
+      summary: "Gets information of a single user."
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserModel"
+        '403':
+          description: Unauthorized.
+        '404':
+          description: User not found.
+    
+    patch:
+      summary: "Updates the details for a user."
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                name:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User updation successful.
+        '403':
+          description: Unauthorized.
+        '404':
+          description: User not found.
+    
+    delete:
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      summary: "Deletes a user account."
+      responses:
+        '200':
+          description: OK.
+  
+  /sessions/me:
+    summary: "Represents an active session for a user."
+
+    post:
+      summary: "Creates a session and returns a JWT token."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - usernameOrEmail
+                - password
+              properties:
+                usernameOrEmail:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                required:
+                  - token
+                type: object
+                properties:
+                  token:
+                    type: string
+                    format: byte
+
+components:
+  schemas:
+    RecordingModel:
+      type: object
+      required:
+        - recordingId
+        - dateCreated
+        - audioUrl
+      properties:
+        recordingId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        dateCreated:
+          type: number
+          format: date-time
+        audioUrl:
+          type: string
+          format: uri
+        noteId:
+          type: string
+          format: uuid
+
+    NoteModel:
+      type: object
+      properties:
+        noteId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        content:
+          type: string
+    
+    PracticeTextPreviewModel:
+      type: object
+      required:
+        - prTextId
+        - title
+      properties:
+        prTextId:
+          type: string
+          format: uuid
+        title:
+          type: string
+    
+    PracticeTextModel:
+      type: object
+      required:
+        - prTextId
+        - title
+        - content
+      properties:
+        prTextId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        content:
+          type: string
+
+    UserModel:
+      type: object
+      required:
+        - username
+        - email
+        - name
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+
+    UserCreationModel:
+      type: object
+      required:
+        - username
+        - email
+        - name
+        - password
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        password:
+          type: string
+          format: password
