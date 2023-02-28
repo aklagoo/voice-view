@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info: 
+  title: voice-view-api
+  description: API for voice view
+  version: 1.0.0
+
+paths: {}
+
+components:
+  schemas:
+    RecordingModel:
+      type: object
+      required:
+        - recordingId
+        - dateCreated
+        - audioUrl
+      properties:
+        recordingId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        dateCreated:
+          type: number
+          format: date-time
+        audioUrl:
+          type: string
+          format: uri
+        noteId:
+          type: string
+          format: uuid
+
+    NoteModel:
+      type: object
+      properties:
+        noteId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        content:
+          type: string
+    
+    PracticeTextPreviewModel:
+      type: object
+      required:
+        - prTextId
+        - title
+      properties:
+        prTextId:
+          type: string
+          format: uuid
+        title:
+          type: string
+    
+    PracticeTextModel:
+      type: object
+      required:
+        - prTextId
+        - title
+        - content
+      properties:
+        prTextId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        content:
+          type: string
+
+    UserModel:
+      type: object
+      required:
+        - username
+        - email
+        - name
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+
+    UserCreationModel:
+      type: object
+      required:
+        - username
+        - email
+        - name
+        - password
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        password:
+          type: string
+          format: password
