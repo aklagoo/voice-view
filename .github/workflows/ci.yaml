@@ -1,0 +1,9 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  ci-backend:
+    name: Unit test backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test command
+        run: echo "Workflow unimplemented."

@@ -8,19 +8,19 @@ let runtimeApp: Express;
 let runtimeServer: Server;
 
 beforeAll(() => {
-    runtimeApp = app;
-    runtimeServer = server;
+  runtimeApp = app;
+  runtimeServer = server;
 });
 
 describe("Server", () => {
-    it("should return status code 200.", (done) => {
-        request(runtimeApp).get('/').then((res) => {
-            expect(res.statusCode).toBe(200);
-            done();
-        });
+  it("should return status code 200.", (done) => {
+    request(runtimeApp).get('/').then((res) => {
+      expect(res.statusCode).toBe(200);
+      done();
     });
+  });
 });
 
 afterAll(() => {
-    runtimeServer.close();
+  runtimeServer.close();
 });
