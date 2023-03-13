@@ -1,3 +1,5 @@
+# Caching section partially sourced from https://www.voorhoede.nl/en/blog/super-fast-npm-install-on-github-actions/
+
 name: ci
 on: [push, pull_request]
 jobs:
@@ -11,11 +13,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: |
-            package-lock.json
-            backend/package-lock.json
+
+      - name: Cache node_modules
+        id: cache-backend-node
+        uses: actions/cache@v3
+        with:
+          path: ./backend/node_modules
+          key: backend-node-modules-${{ hashFiles('./backend/package-lock.json') }}
+
       - name: Install
+        if: steps.cache-backend-node.outputs.cache-hit == 'false'
         working-directory: ./backend
         run: npm ci
       - name: Test
