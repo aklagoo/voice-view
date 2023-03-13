@@ -1,6 +1,6 @@
 {
   "name": "voice-view",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Full stack app for recording voice and visualizing it",
   "main": "index.js",
   "scripts": {
