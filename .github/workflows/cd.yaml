@@ -1,5 +1,8 @@
 name: cd
-on: [push, pull_request]
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
 jobs:
   cd-backend-success:
     name: Deploy backend
