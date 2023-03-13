@@ -1,9 +1,17 @@
 name: cd
-on: push
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "ci"
+    types:
+      - "completed"
+
 jobs:
   cd-backend-success:
     name: Deploy backend
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     permissions:
      contents: 'read'
@@ -19,3 +27,5 @@ jobs:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
 
+      - name: Deploy to Google App Engine
+        uses: google-github-actions/deploy-appengine@v1
