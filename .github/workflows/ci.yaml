@@ -15,14 +15,14 @@ jobs:
           node-version: '18'
 
       - name: Cache node_modules
-        id: cache-backend-node
+        id: cache
         uses: actions/cache@v3
         with:
           path: ./backend/node_modules
           key: backend-node-modules-${{ hashFiles('./backend/package-lock.json') }}
 
       - name: Install
-        if: steps.cache-backend-node.outputs.cache-hit == 'false'
+        if: steps.cache.outputs.cache-hit != 'true'
         working-directory: ./backend
         run: npm ci
       - name: Test
