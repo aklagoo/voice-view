@@ -11,7 +11,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cahce: 'npm'
+          cache: 'npm'
           cache-dependency-path: |
             package.json
             backend/package.json
