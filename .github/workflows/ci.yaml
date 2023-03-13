@@ -1,7 +1,7 @@
 # Caching section partially sourced from https://www.voorhoede.nl/en/blog/super-fast-npm-install-on-github-actions/
 
 name: ci
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 jobs:
   ci-backend:
     name: Test backend
