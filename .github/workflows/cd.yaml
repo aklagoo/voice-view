@@ -1,9 +1,5 @@
 name: cd
-on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [ci]
-    types: [completed]
+on: push
 jobs:
   cd-backend-success:
     name: Deploy backend
