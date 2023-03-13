@@ -15,7 +15,7 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             backend/package-lock.json
-      - name: Insstall
+      - name: Install
         working-directory: ./backend
         run: npm install
       - name: Test
