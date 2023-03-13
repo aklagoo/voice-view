@@ -17,7 +17,7 @@ jobs:
             backend/package-lock.json
       - name: Install
         working-directory: ./backend
-        run: npm install
+        run: npm ci
       - name: Test
         run: npm test
         working-directory: ./backend
